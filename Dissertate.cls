@@ -87,7 +87,10 @@
 \setromanfont[Numbers=OldStyle, Ligatures={Common, TeX}, Scale=1.0]{EB Garamond}
 \newfontfamily{\smallcaps}[RawFeature={+c2sc,+scmp}]{EB Garamond}
 \setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
-\setmonofont[Scale=MatchLowercase]{Source Code Pro}
+\setmonofont[Scale=MatchLowercase,
+             Path=fonts/Source_Code_Pro/,
+             Extension=.ttf,
+             BoldFont=SourceCodePro-Bold]{SourceCodePro-Regular}
 \RequirePackage[labelfont={bf,sf,footnotesize,singlespacing},
                 textfont={sf,footnotesize,singlespacing},
                 justification={justified,RaggedRight},
@@ -120,8 +123,8 @@
 
 % References.
 \renewcommand\bibname{References}
-\RequirePackage[super,comma,numbers]{natbib}
-\renewcommand{\bibnumfmt}[1]{[#1]}
+\RequirePackage[backend=biber,style=ieee]{biblatex}
+%\renewcommand{\bibnumfmt}[1]{[#1]}
 \RequirePackage[palatino]{quotchap}
 \renewcommand*{\chapterheadstartvskip}{\vspace*{-0.5\baselineskip}}
 \renewcommand*{\chapterheadendvskip}{\vspace{1.3\baselineskip}}
@@ -180,14 +183,14 @@
 \def\pdTwoSchool#1{\gdef\@pdTwoSchool{#1}}
 \def\pdTwoYear#1{\gdef\@pdTwoYear{#1}}
 % School name and location
-\university{University of California, Berkeley}
-\universitycity{Berkeley}
-\universitystate{California}
+\university{Universidad de los Andes}
+\universitycity{Bogotá}
+\universitystate{Colombia}
 
 % School color found from university's graphic identity site:
 % http://brand.berkeley.edu/colors/
 
-\definecolor{SchoolColor}{HTML}{003262} %berkeley blue
+\definecolor{SchoolColor}{HTML}{9fa0a3} %berkeley blue
 %\definecolor{chaptergrey}{HTML}{003262} % chapter numbers
 
 % \definecolor{SchoolColor}{rgb}{0,0.19608,0.3843} %berkeley blue
@@ -221,9 +224,10 @@
 
 \renewcommand{\maketitle}{
     \thispagestyle{empty}
-    \vspace*{\fill}
+    %\vspace*{\fill}
     \vspace{10pt}
     \begin{center}
+    \thispagestyle{empty}
     \Huge \textcolor{SchoolColor}{\thetitle} \normalsize \\
     \vspace{100pt}
     By\\
@@ -231,7 +235,7 @@
     \vspace{12pt}
     \textsc{A Dissertation submitted in partial satisfaction of the\\
     requirements for the degree of \\ \@degree\\
-    in\\ \@department\\ in the\\  Graduate Division\\ of the\\
+    in\\ \@department\\ in the\\  Undergraduate Division\\ of the\\
     \@university\\
     \vspace{50pt}
     Committee in charge:\\
@@ -276,7 +280,7 @@
     \newpage
     \thispagestyle{empty}
     \vspace*{\fill}
-    \scshape \noindent \small \copyright \small 2015\hspace{3pt}-- \theauthor \\
+    \scshape \noindent \small \copyright \small 2018\hspace{3pt}-- \theauthor \\
     \noindent all rights reserved.
     \vspace*{\fill}
     \newpage
@@ -322,9 +326,11 @@
 \renewcommand{\backmatter}{
     \input{endmatter/personalize}
     \clearpage
-    \bibliography{references}
+    \nocite{*}
+    \printbibliography[title=References]
+    %\bibliography{references}
     \addcontentsline{toc}{chapter}{References}
-    \bibliographystyle{apalike2}
+    %\bibliographystyle{apalike2}
     \begin{appendices}
         \include{chapters/appendixA}
     \end{appendices}
