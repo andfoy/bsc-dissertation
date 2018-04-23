@@ -331,10 +331,10 @@
     %\bibliography{references}
     \addcontentsline{toc}{chapter}{References}
     %\bibliographystyle{apalike2}
-    \begin{appendices}
-        \include{chapters/appendixA}
-    \end{appendices}
-    \include{endmatter/colophon}
+    %\begin{appendices}
+    %    \include{chapters/appendixA}
+    %\end{appendices}
+    %\include{endmatter/colophon}
 }
 
 
