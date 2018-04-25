@@ -13,10 +13,22 @@ To address this limitation, and acknowledging segmentation as a problem of high 
 
 \begin{figure}
 	\centering
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.33\columnwidth}
             \centering
-            \includegraphics[width=\textwidth]{figure1}
-    \phantomcaption
+            \includegraphics[width=\textwidth]{./figures/sample_image.png}
+    \subcaption{Original Image}
+    \label{fig:fig1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.33\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/Mask_1.png}
+    \subcaption{\textit{Woman on the left}}
+    \label{fig:fig1}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.33\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/Mask_2.png}
+    \subcaption{\textit{Man on blue}}
     \label{fig:fig1}
     \end{subfigure}
     %\subfloat[Original image.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-1.png} }}%
