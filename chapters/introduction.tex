@@ -9,34 +9,35 @@ Until now, most applications that blend language and vision are focused on Image
 
 Furthermore, due to the limited availability of datasets that combine both textual inputs and segmentation masks, most of the current available multimodal databases describe only an image and its object detection bounding boxes, alongside their corresponding natural language features, such as scene and attribute graphs and region descriptions, such as Visual Genome \cite{krishna_visual_2016}, one of the largest datasets in terms of visual and language relationships. However, this dataset is constrained to generate detection outputs, instead of segmentation masks.
 
-To address this limitation, and acknowledging segmentation as a problem of high level, we propose to perform natural language-based object segmentation; this problem can be summarized as it follows: Given an image and a complex natural language query that contains references to a given set of object/s present on the image, produce a segmentation mask of the object/s referred. As it can be seen on Figure~\ref{Fig:Intro_Descr}, this problem differs from classic semantic segmentation by defining only two categories (Background/Belongs to the query), instead of $N$ object categories.
+To address this limitation, and acknowledging segmentation as a problem of high level, we propose to perform natural language-based object segmentation; this problem can be summarized as it follows: Given an image and a complex natural language query that contains references to a given set of object/s present on the image, produce a segmentation mask of the object/s referred. As it can be seen on Figure~\ref{Fig:Intro_Descr}, this problem differs from classic semantic segmentation by defining only two categories (Background/Belongs to the query), instead of $N$ object categories. For instance, an input image (\subref{subfig:original_img}) can have many output masks, depending on the input phrase
 
 \begin{figure}
 	\centering
-    \begin{subfigure}[b]{0.33\columnwidth}
+    \begin{subfigure}[b]{0.25\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/sample_image.png}
     \subcaption{Original Image}
-    \label{fig:fig1}
+    \label{subfig:original_img}
     \end{subfigure}
-    \begin{subfigure}[b]{0.33\columnwidth}
+    \begin{subfigure}[b]{0.25\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/Mask_1.png}
     \subcaption{\textit{Woman on the left}}
-    \label{fig:fig1}
+    \label{subfig:woman_left}
     \end{subfigure}
-     \begin{subfigure}[b]{0.33\columnwidth}
+     \begin{subfigure}[b]{0.25\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/Mask_2.png}
     \subcaption{\textit{Man on blue}}
-    \label{fig:fig1}
+    \label{subfig:man_blue}
     \end{subfigure}
     %\subfloat[Original image.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-1.png} }}%
     %\quad
     %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
     %\quad
     %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
-    \caption{\label{fig:query} Example of \textit{segmentation based on a natural language expression}. A single mask is the output, in which the only two labels represent \textit{member of query} and \textit{background}. Here, we show the raw output, which is a heatmap.}
+    \caption{\label{fig:query} Example of \textit{segmentation based on a natural language expression}. A single mask is the output, in which the only two labels represent \textit{member of query} and \textit{background}. Outputs are provided as heatmaps (\subref{subfig:woman_left}) and (\subref{subfig:man_blue})}
+    \label{Fig:Intro_Descr}
 \end{figure}
 
 Besides, the model must have the ability to reason about the main object referred on the expression, as the number of possible expressions in the worst case that refer to same object is in the order of the length of all the combinations of words of a language vocabulary that contain a given object, whereas on Segmantic Segmentation a model must reason only about a constrained number of objects.
