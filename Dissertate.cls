@@ -76,6 +76,7 @@
 \RequirePackage{color}
 \RequirePackage{xcolor}
 \usepackage{hyperref}
+\usepackage{epsfig}
 \RequirePackage{url}
 \RequirePackage{amssymb}
 \RequirePackage{mathspec}
@@ -97,7 +98,7 @@
                 singlelinecheck=false,
                 margin=0pt,
                 figurewithin=chapter,
-                tablewithin=chapter]{caption}
+                tablewithin=chapter]{caption, subcaption}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \RequirePackage{microtype}
 

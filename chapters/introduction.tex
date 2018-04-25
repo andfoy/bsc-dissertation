@@ -11,6 +11,22 @@ Furthermore, due to the limited availability of datasets that combine both textu
 
 To address this limitation, and acknowledging segmentation as a problem of high level, we propose to perform natural language-based object segmentation; this problem can be summarized as it follows: Given an image and a complex natural language query that contains references to a given set of object/s present on the image, produce a segmentation mask of the object/s referred. As it can be seen on Figure~\ref{Fig:Intro_Descr}, this problem differs from classic semantic segmentation by defining only two categories (Background/Belongs to the query), instead of $N$ object categories.
 
+\begin{figure}
+	\centering
+    \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figure1}
+    \phantomcaption
+    \label{fig:fig1}
+    \end{subfigure}
+    %\subfloat[Original image.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-1.png} }}%
+    %\quad
+    %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
+    %\quad
+    %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
+    \caption{\label{fig:query} Example of \textit{segmentation based on a natural language expression}. A single mask is the output, in which the only two labels represent \textit{member of query} and \textit{background}. Here, we show the raw output, which is a heatmap.}
+\end{figure}
+
 Besides, the model must have the ability to reason about the main object referred on the expression, as the number of possible expressions in the worst case that refer to same object is in the order of the length of all the combinations of words of a language vocabulary that contain a given object, whereas on Segmantic Segmentation a model must reason only about a constrained number of objects.
 
 The applications of this problem are very varied, from robotics applications such as object retrieval based on natural language, such as in \cite{guadarrama_understanding_2016}, to image retrieval based on natural language descriptions \cite{schuster2015generating}; by providing a better scene and object understanding it is possible not only to retrieve images that contain an specific object, but also it is possible to retrieve the object itself. Finally, given multiple poses of the same object retrieved via a referring expression, it should be possible to reconstruct the object in 3D.
