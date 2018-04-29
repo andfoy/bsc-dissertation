@@ -1,7 +1,7 @@
 %!TEX root = ../dissertation.tex
 \chapter{Introduction}
 \label{introduction}
-Since 2012 \cite{krizhevsky2012imagenet}, the advent of deep learning has enabled researchers to study classical problems in computer vision such as object detection, semantic segmentation and instance segmentation, and achieve high performances in challenging datasets. These problems have lately been tackled using Convolutional Neural Networks (CNNs) \cite{DBLP:journals/corr/LongSD14}\cite{zhao2017pspnet}\cite{he_mask_2017} and insights into the information flow within such networks \cite{DBLP:journals/corr/HeZRS15}\cite{DBLP:journals/corr/HuangLW16a}, bearing in mind that CNNs are particularly well suited to process spatial and hierarchical information. 
+Since 2012 \cite{krizhevsky2012imagenet}, the advent of deep learning has enabled researchers to study classical problems in computer vision such as object detection, semantic segmentation and instance segmentation, and achieve high performances in challenging datasets. These problems have lately been tackled using Convolutional Neural Networks (CNNs) \cite{DBLP:journals/corr/LongSD14}\cite{zhao2017pspnet}\cite{he_mask_2017} \cite{DBLP:journals/corr/HeZRS15}\cite{DBLP:journals/corr/HuangLW16a}, because of their efficiency in extracting visual features and specialized filters, due to their information flow in different architectures., also, it is necessary to take into account that CNNs are particularly well suited to process spatial and hierarchical information. 
 
 On the other hand, Recurrent Neural Network (RNNs) models have been used previously to model and predict time sequences, these type of models have presented an state-of-the-art performance on different temporal-dependent applications, such as Speech Recognition \cite{DBLP:journals/corr/abs-1303-5778}, Handwriting recognition \cite{DBLP:journals/corr/Graves13}, text analysis and other specialized applications, such as protein reconstruction and nucleotide prediction \cite{doi:10.1093/bioinformatics/btw678}, and more recently on more advanced tasks such as Answering Open Domain Questions from large scale text corpus such as Wikipedia \cite{chen2017reading}. Moreover, several RNN models have been proposed, such as Long Short Term Memory (LSTM) \cite{Hochreiter:1997:LSM:1246443.1246450} units, Gated Recurrent Units (GRU) \cite{DBLP:journals/corr/ChoMGBSB14} and Simple Recurrent Units (SRU) \cite{DBLP:journals/corr/abs-1709-02755}, which presents the best time performance with respect to the previous models. However, all the aforementioned models are based on a set of state equations that relate both present input information at time $t$ with information from previous time steps $0 \cdots t-1$, allowing to model and generalize time dependent information, while removing unnecessary features that do not contribute to the generalization process.
 
@@ -9,23 +9,27 @@ Until now, most applications that blend language and vision are focused on Image
 
 Furthermore, due to the limited availability of datasets that combine both textual inputs and segmentation masks, most of the current available multimodal databases describe only an image and its object detection bounding boxes, alongside their corresponding natural language features, such as scene and attribute graphs and region descriptions, such as Visual Genome \cite{krishna_visual_2016}, one of the largest datasets in terms of visual and language relationships. However, this dataset is constrained to generate detection outputs, instead of segmentation masks.
 
-To address this limitation, and acknowledging segmentation as a problem of high level, we propose to perform natural language-based object segmentation; this problem can be summarized as it follows: Given an image and a complex natural language query that contains references to a given set of object/s present on the image, produce a segmentation mask of the object/s referred. As it can be seen on Figure~\ref{Fig:Intro_Descr}, this problem differs from classic semantic segmentation by defining only two categories (Background/Belongs to the query), instead of $N$ object categories. For instance, an input image (\subref{subfig:original_img}) can have many output masks, depending on the input phrase
+To address this limitation, and acknowledging segmentation as a problem of high level, we propose to perform natural language-based object segmentation; this problem can be summarized as it follows: Given an image and a complex natural language query that contains references to a given set of object/s present on the image, produce a segmentation mask of the object/s referred. Thus, the task addressed in this thesis is considered to be closest in nature to object detection based on natural language expressions, mirroring how semantic segmentation arose from object detection.
+
+As it can be seen on Figure~\ref{Fig:Intro_Descr}, this problem differs from classic semantic segmentation by defining only two categories (Background/Belongs to the query), instead of $N$ object categories. For instance, an input image can have as many output masks as many object referring expressions it can have.
+
+
 
 \begin{figure}
 	\centering
-    \begin{subfigure}[b]{0.25\columnwidth}
+    \begin{subfigure}[b]{0.27\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/sample_image.png}
     \subcaption{Original Image}
     \label{subfig:original_img}
     \end{subfigure}
-    \begin{subfigure}[b]{0.25\columnwidth}
+    \begin{subfigure}[b]{0.27\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/Mask_1.png}
     \subcaption{\textit{Woman on the left}}
     \label{subfig:woman_left}
     \end{subfigure}
-     \begin{subfigure}[b]{0.25\columnwidth}
+     \begin{subfigure}[b]{0.27\columnwidth}
             \centering
             \includegraphics[width=\textwidth]{./figures/Mask_2.png}
     \subcaption{\textit{Man on blue}}
@@ -36,7 +40,7 @@ To address this limitation, and acknowledging segmentation as a problem of high 
     %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
     %\quad
     %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
-    \caption{\label{fig:query} Example of \textit{segmentation based on a natural language expression}. A single mask is the output, in which the only two labels represent \textit{member of query} and \textit{background}. Outputs are provided as heatmaps (\subref{subfig:woman_left}) and (\subref{subfig:man_blue})}
+    \caption{\label{fig:query} Example of \textit{segmentation based on a natural language expression}. A single mask is the output, in which the only two labels represent \textit{member of query} and \textit{background}. Outputs (\subref{subfig:woman_left}) and (\subref{subfig:man_blue}) are provided as heatmaps}
     \label{Fig:Intro_Descr}
 \end{figure}
 
