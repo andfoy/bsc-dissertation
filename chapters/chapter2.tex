@@ -22,11 +22,26 @@ The model consists of a Fully Convolutional Network (FCN) model for the VM and t
 
 \section{Visual Module (VM)}
 \label{section:vm}
-The Visual Module extracts features from an input image using a Fully Convolutional Network (FCN), these kind of models are able to take as input images of different dimensions, and therefore enables the DMN to process images of any arbitrary size. As the model depends on the multiscale features produced by the FCN, it is expected that as the FCN model improves its performance, 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{./figures/Visual_Module.pdf}
+\caption{Visual Module overview}
+\label{Fig:VM}
+\end{figure}
+
+
+The Visual Module (Figure~\ref{Fig:VM}) extracts features from an input image using a Fully Convolutional Network (FCN), these kind of models are able to take as input images of different dimensions, and therefore enables the DMN to process images of any arbitrary size. As the model depends on the multiscale features produced by the FCN, it is expected that as the FCN model improves its performance, as the visual features extracted from an input image should be more descriptive. Given this idea, the DMN experiments were based on the Dual Path Network-92 (DPN-92) \cite{DBLP:journals/corr/ChenLXJYF17}, due to its competitive results in various tasks and its parameter size efficiency.
+
+Given an input image $I$, the VM produces a 5-tuple $\{I_1, I_2, I_3, I_4, I_5\}$, where each $I_k$ corresponds to the DPN-92 features of size $\frac{H}{2^k}$. As each map contains different resolution level features, it is expected that the encoded information will help to produce better segmentation masks, by including them on the last module.
+
 
 \section{Language Module (LM)}
 
+
+
 \section{Synthetic Module (SM)}
+
 
 \section{Upsampling Module (UM)}
 \label{section:um}
