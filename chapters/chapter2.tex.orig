@@ -12,7 +12,11 @@ As shown on Figure~\ref{Fig:Overall} The DMN consists of four modules
 
 \begin{figure}
 \centering
+<<<<<<< HEAD
+
+=======
 \includegraphics[width=\textwidth]{./figures/Model_Overview.pdf}
 \caption{Dynamic Multimodal Network general overview consisting of a Visual Module, a Language Module, a Synthetic Module and a Upsampling Module}
 \label{Fig:Overall}
+>>>>>>> github/master
 \end{figure}
