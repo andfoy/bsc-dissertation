@@ -79,6 +79,7 @@
 \usepackage{epsfig}
 \RequirePackage{url}
 \RequirePackage{amssymb}
+\RequirePackage{amsmath}
 \RequirePackage{mathspec}
 \setmathsfont(Digits,Latin,Greek)[Numbers={Proportional}]{EB Garamond}
 \setmathrm{EB Garamond}
@@ -218,7 +219,7 @@
     \dedicationpage
     \tableofcontents
     \acknowledgments
-    % \listoffigures % optional
+    \listoffigures % optional
     \setcounter{page}{1}
     \pagenumbering{arabic}
 }
