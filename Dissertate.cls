@@ -77,8 +77,12 @@
 \RequirePackage{xcolor}
 \usepackage{hyperref}
 \usepackage{epsfig}
+\RequirePackage{siunitx}
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{E}}}
 \RequirePackage{url}
 \RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{multirow}
 \RequirePackage{mathspec}
 \setmathsfont(Digits,Latin,Greek)[Numbers={Proportional}]{EB Garamond}
 \setmathrm{EB Garamond}
@@ -218,7 +222,7 @@
     \dedicationpage
     \tableofcontents
     \acknowledgments
-    % \listoffigures % optional
+    \listoffigures % optional
     \setcounter{page}{1}
     \pagenumbering{arabic}
 }
