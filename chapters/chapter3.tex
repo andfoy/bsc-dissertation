@@ -22,4 +22,27 @@
 \section{Metrics}
 Experiments with the proposed method were performed on the four standard datasets described above by training on the training set and evaluating the performance in each of the validation or test sets. Evaluation is performed by using two standard metrics: \textit{(i)} mean Intersection over Union (mIoU), defined as the total intersection area between the output and Ground Truth (GT) mask, divided by the total union between the output and GT mask, added over all the images in the evaluation set, and \textit{(ii)} \textit{Precision}$@X$, or \textit{Pr}$@X$, ($X \in \{0.5, 0.6, 0.7, 0.8, 0.9\}$), defined as the percentage of images with IoU higher than $X$. The usage of these metrics allows for direct comparison with previous works.
 
-\section{}
+\section{Architecture Experiments}
+To determine the optimal values for each hyperparameter defined on the DMN, a set of experiments was done, each one of them varies each parameter independently to establish the importance and weight on the model (Subection~\ref{section:base}). Besides, on Subsection \ref{section:refinement} follow-up experiments were done on different combinations of the parameters of the base model. Due to the variety in the number of available datasets, all the base and refinement experiments are based only on UNC, as it contains more training cases and more complex queries than ReferIt, which may contain phrases that refer to a single object on a single word.
+
+All the experiments presented on the current and follow-up sections are trained using a learning rate of \num{1e-5} and Adam \cite{DBLP:journals/corr/KingmaB14} optimiser with batch size 1 and a total number of 24 epochs during the low resulution phase and a further 10 epochs on high resolution. The model reference implementation was done on PyTorch\footnote{\url{http://pytorch.org}} and it is available at: \url{https://github.com/andfoy/query-objseg}
+
+%Then, the resulting model architecture (according to the previous experiments results) is fine-tuned on each of the remaining datasets, using the pretrained weights on UNC
+
+\subsection{Base Experiments}
+\label{section:base}
+On Table~\ref{Tab:Arch_Exps}, the main values for each of the base experiments are presented, only the parameters referred to the main aspects of the Language and the Syntesis modules of the model are subject to experimentation. For instance, these experiments only consider variations on the number of layers of each of the recurrent modules involved on the model, as well on their hidden size representations. The experiments also consider variations on the total number of dynamical filters trained on the SM. Finally, they also consider the inclusion of the WE representation at the moment of computing both the language filters and the multimodal representation.
+
+These experiments do not consider variations on the Visual Module, as its functionality is provided by a state-of-the-art CNN, which should provide the best visual representation as they were tested previously on large-scale visual competitions and datasets, such as ImageNet. Also, they do not consider modifications on the Upsampling module, as the model is trained on two phases, one to learn a low resolution segmentation map, and another lo learn the final upsampling output. However, variations on this module are provided as part of the Ablation Experiments described on section \ref{section:ablation}.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{|c|c|}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Caption}
+    \label{Tab:Arch_Exps}
+\end{table}
+
+\subsection{Refinement Experiments}
