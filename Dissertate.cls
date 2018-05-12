@@ -89,6 +89,7 @@
 \AtBeginEnvironment{tabular}{\addfontfeature{RawFeature=+tnum}}
 \widowpenalty=300
 \clubpenalty=300
+\setromanfont[BoldFont = Adobe Garamond Pro Semibold, Path=fonts/EB_Garamond/, Extension=.otf]{Adobe Garamond Pro Regular}
 \setromanfont[Numbers=OldStyle, Ligatures={Common, TeX}, Scale=1.0]{EB Garamond}
 \newfontfamily{\smallcaps}[RawFeature={+c2sc,+scmp}]{EB Garamond}
 \setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
