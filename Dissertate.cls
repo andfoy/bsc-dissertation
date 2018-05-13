@@ -93,7 +93,11 @@
 \setromanfont[BoldFont = Adobe Garamond Pro Semibold, ExternalLocation=fonts/EB_Garamond/, Extension=.otf, BoldFeatures = {Scale=MatchLowercase}, Numbers=OldStyle, Ligatures={Common, TeX}, Scale=1.0]{EBGaramond12-Regular}
 
 \newfontfamily{\smallcaps}[RawFeature={+c2sc,+scmp}]{EB Garamond}
-\setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
+%\setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
+\setsansfont[Scale=MatchLowercase,
+             Path=fonts/Proza_Libre/,
+             Extension=.ttf,
+             BoldFont=ProzaLibre-Bold]{ProzaLibre-Regular}
 \setmonofont[Scale=MatchLowercase,
              Path=fonts/Source_Code_Pro/,
              Extension=.ttf,
@@ -343,5 +347,7 @@
     %\end{appendices}
     %\include{endmatter/colophon}
 }
+
+\newcommand{\STAB}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
 
 

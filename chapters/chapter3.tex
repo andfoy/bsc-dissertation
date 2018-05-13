@@ -23,9 +23,9 @@
 Experiments with the proposed method were performed on the four standard datasets described above by training on the training set and evaluating the performance in each of the validation or test sets. Evaluation is performed by using two standard metrics: \textit{(i)} mean Intersection over Union (mIoU), defined as the total intersection area between the output and Ground Truth (GT) mask, divided by the total union between the output and GT mask, added over all the images in the evaluation set, and \textit{(ii)} \textit{Precision}$@X$, or \textit{Pr}$@X$, ($X \in \{0.5, 0.6, 0.7, 0.8, 0.9\}$), defined as the percentage of images with IoU higher than $X$. The usage of these metrics allows for direct comparison with previous works.
 
 \section{Architecture Experiments}
-To determine the optimal values for each hyperparameter defined on the DMN, a set of experiments was done, each one of them varies each parameter independently to establish the importance and weight on the model (Subection~\ref{section:base}). Besides, on Subsection \ref{section:refinement} follow-up experiments were done on different combinations of the parameters of the base model. Due to the variety in the number of available datasets, all the base and refinement experiments are based only on UNC, as it contains more training cases and more complex queries than ReferIt, which may contain phrases that refer to a single object on a single word.
+To determine the optimal values for each hyperparameter defined on the DMN, a set of experiments was done, each one of them varies each parameter independently to establish the importance and weight on the model (Subection~\ref{section:base}). Besides, on Subsection \ref{section:refinement} follow-up experiments were done on different combinations of the parameters of the base experiments. Due to the variety in the number of available datasets, all the base and refinement experiments are based only on UNC, as it contains more training cases and more complex queries than ReferIt, which may contain phrases that refer to a single object on a single word.
 
-All the experiments presented on the current and follow-up sections are trained using a learning rate of \num{1e-5} and Adam \cite{DBLP:journals/corr/KingmaB14} optimiser with batch size 1 and a total number of 24 epochs during the low resulution phase and a further 10 epochs on high resolution. The model reference implementation was done on PyTorch\footnote{\url{http://pytorch.org}} and it is available at: \url{https://github.com/andfoy/query-objseg}
+All the experiments presented on the current and follow-up sections were trained using a learning rate of \num{1e-5} and Adam \cite{DBLP:journals/corr/KingmaB14} optimiser with batch size 1 and a total number of 24 epochs during the low resulution phase and a further 10 epochs on high resolution. The model reference implementation was done on PyTorch\footnote{\url{http://pytorch.org}} and it is available at: \url{https://github.com/andfoy/query-objseg}
 
 %Then, the resulting model architecture (according to the previous experiments results) is fine-tuned on each of the remaining datasets, using the pretrained weights on UNC
 
@@ -35,14 +35,95 @@ On Table~\ref{Tab:Arch_Exps}, the main values for each of the base experiments a
 
 These experiments do not consider variations on the Visual Module, as its functionality is provided by a state-of-the-art CNN, which should provide the best visual representation as they were tested previously on large-scale visual competitions and datasets, such as ImageNet. Also, they do not consider modifications on the Upsampling module, as the model is trained on two phases, one to learn a low resolution segmentation map, and another lo learn the final upsampling output. However, variations on this module are provided as part of the Ablation Experiments described on section \ref{section:ablation}.
 
+% \begin{table}[!htbp]
+%     \centering
+%     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+%     \cline{4-13}
+%     \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{10}{ |c|}{Base Experiments}  \\
+%     \hline
+%     \multirow{7}{*}{\rotatebox[origin=c]{90}{Parameters}} & mSRU Layers & 3 & \textbf{5} & \textbf{4} & - & - & - & - & - & - & - & - \\
+%     \cline{2-13}
+%     & mSRU Input Size & \num{1e3} & - & - & \textbf{4096} & \textbf{512} &  - & - & - & - & - & -  \\
+%     \cline{2-13}
+%     & mSRU Hid Size & \num{1e3} & -  & - & - & - & \textbf{4096} &  - & - & - & - & - \\
+%     \cline{2-13}
+%     & SRU Layers & 2 & - & - & - & - & - & \textbf{3} & - & - & - & -   \\
+%     \cline{2-13}
+%     & SRU Hid Size & \num{1e3} & - & - & - & - & - & - & \textbf{2048} & - & - & -    \\
+%     \cline{2-13}
+%     & HID|WE Concat & F & - & - & - & - & - & - & - & \textbf{T} & - & -  \\
+%     \cline{2-13}
+%     & Filters & 1 & - & - & - & - & - & - & - & - & \textbf{5} & \textbf{10} \\
+%     \hline
+%     \multicolumn{13}{c}{} \\
+%     \multicolumn{1}{c}{} & \multicolumn{1}{c}{\textbf{mIoU}} & \multicolumn{1}{c}{0.348} & \multicolumn{1}{c}{\textbf{0.378}} & \multicolumn{1}{c}{0.362} & \multicolumn{1}{c}{\textbf{0.372}} & \multicolumn{1}{c}{\textbf{0.362}} &
+%     \multicolumn{1}{c}{\textbf{0.372}} &
+%     \end{tabular}
+%     \caption{Caption}
+%     \label{Tab:Arch_Exps}
+% \end{table}
+
 \begin{table}[!htbp]
     \centering
-    \begin{tabular}{|c|c|}
-         &  \\
-         & 
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Parameters & Default Values & Variants & Experiment Numbers \\
+        \hline
+        mSRU Layers & 3 & 5, 4 & (1), (2)  \\
+        \hline
+        mSRU Input Size & 1000 & 512, 4096 & (3), (4) \\
+        \hline
+        mSRU Hid Size & 1005 & 4096 & (5) \\
+        \hline
+        Language SRU Layers & 2 & 3 & (6) \\
+        \hline
+        Language SRU Hid Size & 1000 & 2048 & (7) \\
+        \hline
+        HID|EMB Concat & False & True & (8) \\
+        \hline
+        Number of Dynamic Filters & 1 & 5, 10 & (9), (10) \\
+        \hline
     \end{tabular}
-    \caption{Caption}
+    \caption{Variations proposed for each of the main parameters defined to perform each base experiment. All parameters' values remain on their default values at all times, except if it is the one subject to variations}
     \label{Tab:Arch_Exps}
 \end{table}
 
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        Experiment Number & mIoU \\
+        \hline
+        \textbf{Baseline} & 0.3385  \\
+        \hline
+        (1) & 0.2752 \\
+        \hline
+        (2) & 0.3256 \\
+        \hline
+        (3) & 0.3165 \\
+        \hline
+        (4) & 0.3201 \\
+        \hline
+        (5) & 0.3073 \\
+        \hline
+        (6) & \textbf{0.3556} \\
+        \hline
+        (7) & 0.2911 \\
+        \hline
+        (8) & \textbf{0.3430} \\
+        \hline
+        (9) & \textbf{0.3456} \\
+        \hline
+        (10) & \textbf{0.3654} \\
+        \hline
+    \end{tabular}
+    \caption{Maximum Intersection-Over-Union for each base experiment presented on Table~\ref{Tab:Arch_Exps}. The baseline was trained using the default parameters}
+    \label{Tab:Base_IoU}
+\end{table}
+
+As shown on Table~\ref{Tab:Base_IoU}, the experiments that did improve the model performance are directly related to the language representation and the dynamical filters. This implies that the model relevant modelling parameters are directly related to language features, rather to multimodal ones. However, the values shall not be greater or lesser than the default values, which reflects the sensibility of the model to undefitting if there are a reduced number of parameters, while if there are a large quantity of parameters, the model may start overfitting the dataset.
+
 \subsection{Refinement Experiments}
+\label{section:refinement}
+On this section, four experiments related to different combinations of parameters presented on the previous experiments 
+
