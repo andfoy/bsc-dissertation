@@ -125,5 +125,64 @@ As shown on Table~\ref{Tab:Base_IoU}, the experiments that did improve the model
 
 \subsection{Refinement Experiments}
 \label{section:refinement}
-On this section, four experiments related to different combinations of parameters presented on the previous experiments 
+On this section, two experiments related to different combinations of parameters presented on the previous experiments. As it possible to observe on Table~\ref{Tab:Comb_Exp}, each experiment is composed of combinations of the values that achieve the best mIoU values with respect to the baseline. As with the previous experiments, the training parameters that are not subject to variation and the experimental setup values are left constant.
 
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Experiment Configuration & SRU Layers & HID|EMB & Dynamic Filters & mIoU  \\
+        \hline
+        A & 3 & T & 5 & 0.4604 \\
+        \hline
+        B & 3 & T & 10 & \textbf{0.4817} \\
+        \hline
+    \end{tabular}
+    \caption{Combination experiments architecture hyperparameters selection}
+    \label{Tab:Comb_Exp}
+\end{table}
+
+As it is possible to infer from the presented results an increase on the network performance as the total number of dynamical filters also increases. This implies that the language features map to visual features enriches the overall training process and help to relate language and vision features in a more compact way. Therefore, the final model subject to comparison with respect to the state-of-the-art has the parameter combination corresponding to the experiment B.
+
+In summary, the main model improvements with respect to the baseline default values are directly related to the language module and its direct dependencies, such as the dynamic filter calculation. However, the DMN is very sensitive to the total number of parameters associated to the aforementioned submodules, while a reduced number of parameters does not guarantee an efficient training of the model, a large number increases the probability of overfitting. Thus, the optimal parameter number margin is very reduced. 
+
+\section{Comparison with State-of-the-art}
+Taking as reference the architecture presented throughout Chapter~\ref{chapter:dmn} with the experimental values reported on the previous section, the model is trained on the remaining datasets (UNC+, GRef and ReferIt), alongside the high resolution version of UNC. 
+
+The training takes information from the low-resolution weights of UNC that were trained on the architecure B during the combination experiments, it is expected that performing  fine-tuning does help to improve the performance on the datasets derived from COCO, as they contain visual and language priors related to this specific dataset in general. Also, by introducing prior knowledge to the model, the total number of training epochs required to reach converge should be reduced. 
+
+On the other hand, it is expected that the pre-trained weights do not help improve modelling features on Referit, as its images and objects referred do not belong to COCO, also, as the queries are less complex, the model cannot exploit the language and visual features found on UNC.
+
+All the datasets were trained during 10 epochs while on low resolution (except UNC) and a further 4 epochs on high resolution. The resulting weights were evaluating on each dataset evaluation splits, as it is possible to observe on \ref{Tab:soa-results}, the DMN outperforms previous works on 6 of 8 splits, improving overall performance between 5\% - 10\%.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c | c | c | c | c | c | c | c | c }
+\hline
+Method 	&\multicolumn{1}{c|}{Referit} 		& \multicolumn{1}{c|}{GRef} & \multicolumn{3}{c|}{UNC} 			& \multicolumn{3}{c}{UNC+} 		\\
+							& test 			& val 						& val		& testA 	& testB 	& val 		& testA 	& testB 	\\
+\hline
+\cite{hu2016segmentation} 	& 48.03 		& 28.14						& - 		& -			& -			& -			& -			& - 		\\
+\cite{Hu2016} 				& 49.91      	& 34.06						& - 		& -			& -			& -			& -			& - 		\\
+\cite{li2017cvpr} 			& 54.30      	& - 						& - 		& -			& -			& -			& -			& - 		\\
+\cite{liu2017segmentation}	&\textbf{58.73}		& 34.52 					& 45.18		& 45.69 	&\textbf{45.57} & 29.86		& 30.48 	& 29.50 	\\
+\hline
+DMN						& 54.40	 		& \textbf{38.39} 				&\textbf{49.86}	& \textbf{54.84}& 45.47  	&\textbf{37.15}	&\textbf{45.91}	& \textbf{31.43} \\
+\hline  
+\end{tabular}
+    \caption{DMN mIoU (\%) performance on GRef, ReferIt, UNC and UNC+. Numbers written on \textbf{Bold} represent where the model did improve performance over previous works. Blank entries refer to values not reported by the authors.}
+    \label{Tab:soa-results}
+\end{table}
+
+With respect to the results, it is possible to observe a notorious improvement on the testA split of both UNC and UNC+, this split is characterized for its emphasis on referring expressions for humans, while testB contains references to different objects. An improvement of 10\% mIoU on testA implies a direct improvement on modelling referral expressions related to human categories on COCO, whereas the improvement margin on testB is not that significant, this may imply a shortcoming of the model when it has to identify other variety of objects, which may have different appearances and sizes.
+
+On ReferIt, the model seems not to improve previous results, as the referral expressions also consider complement sets such as \textit{Everything but X} that do not have a clear representation by the Language Module. Also some object categories \textit{e.g.,} Bottle have a small size, which increase the difficulty of the segmentation task, and thefore it degrades the overall performance of the model.
+
+Finally, a performance increase on GRef is directly related to an improvement of complex queries interpretation and representation. However it is essential to notice that most of the performance gains on this dataset are due to the fine-tuning done over the features extracted from UNC, if the model were to be trained from scratch with random weights, the overall performance would drop to 34.5\%.
+
+\section{Ablation Experiments}
+\label{section:ablation}
+
+\section{Qualitative Results}
+
+\section{Additional Experiments}
