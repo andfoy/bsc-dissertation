@@ -147,6 +147,7 @@ As it is possible to infer from the presented results an increase on the network
 In summary, the main model improvements with respect to the baseline default values are directly related to the language module and its direct dependencies, such as the dynamic filter calculation. However, the DMN is very sensitive to the total number of parameters associated to the aforementioned submodules, while a reduced number of parameters does not guarantee an efficient training of the model, a large number increases the probability of overfitting. Thus, the optimal parameter number margin is very reduced. 
 
 \section{Comparison with State-of-the-art}
+\label{section:comp}
 Taking as reference the architecture presented throughout Chapter~\ref{chapter:dmn} with the experimental values reported on the previous section, the model is trained on the remaining datasets (UNC+, GRef and ReferIt), alongside the high resolution version of UNC. 
 
 The training takes information from the low-resolution weights of UNC that were trained on the architecure B during the combination experiments, it is expected that performing  fine-tuning does help to improve the performance on the datasets derived from COCO, as they contain visual and language priors related to this specific dataset in general. Also, by introducing prior knowledge to the model, the total number of training epochs required to reach converge should be reduced. 
@@ -176,13 +177,37 @@ DMN						& 54.40	 		& \textbf{38.39} 				&\textbf{49.86}	& \textbf{54.84}& 45.47
 
 With respect to the results, it is possible to observe a notorious improvement on the testA split of both UNC and UNC+, this split is characterized for its emphasis on referring expressions for humans, while testB contains references to different objects. An improvement of 10\% mIoU on testA implies a direct improvement on modelling referral expressions related to human categories on COCO, whereas the improvement margin on testB is not that significant, this may imply a shortcoming of the model when it has to identify other variety of objects, which may have different appearances and sizes.
 
-On ReferIt, the model seems not to improve previous results, as the referral expressions also consider complement sets such as \textit{Everything but X} that do not have a clear representation by the Language Module. Also some object categories \textit{e.g.,} Bottle have a small size, which increase the difficulty of the segmentation task, and thefore it degrades the overall performance of the model.
+On ReferIt, the model seems not to improve previous results, as the referral expressions also consider complement sets such as \textit{Everything but X} that do not have a clear representation by the Language Module, by assigning a large importance to the object referred, rather to its complement; this may reflect an inherent preference for the beginning of a phrase. Also some object categories \textit{e.g.,} Bottle have a small size, which increase the difficulty of the segmentation task, and thefore it degrades the overall performance of the model.
 
 Finally, a performance increase on GRef is directly related to an improvement of complex queries interpretation and representation. However it is essential to notice that most of the performance gains on this dataset are due to the fine-tuning done over the features extracted from UNC, if the model were to be trained from scratch with random weights, the overall performance would drop to 34.5\%.
 
 \section{Ablation Experiments}
 \label{section:ablation}
+To evaluate the model from a more systematic and scientific perspective, several parts of the model will be removed in order to determine their importance towards the final performance value. On the present experiments, the main module contributions are removed, then the model is trained under the same setup used to train the DMN to generate results on section \ref{section:comp}. On this opportunity, the experiments are trained exclusively on UNC, as it represents the reference dataset for all the experiments performed throughout this document.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{ c | p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} | c }
+\hline
+Method 								& Pr$@0.5$		& Pr$@0.6$		& Pr$@0.7$		& Pr$@0.8$		& Pr$@0.9$		& mIoU			\\
+\hline
+Only VM 							& 6.41 			& 2.85 			& 1.17 			& 0.36 			& 0 			& 18.03 		\\
+$[h_{t}]$ in LM and SM	& 11.21 		& 6.15 			& 3.19			& 1.48 			& 0.39			& 22.15 		\\
+No skip connections in UM 			& 2.4 			& 1.02 			& 0.25 			& 0.01 			& 0 			& 18.80 		\\
+No dynamic filters					& 15.02 		& 9.43 			& 5.32 			& 2.52 			& 0.28 			& 23.66 		\\
+No concatenation of $r_{t}$			& 14.38 		& 9.11 			& 5.09			& 2.15 			& 0.38			& 22.93 		\\
+\hline
+DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
+\hline
+\end{tabular}
+    \caption{Ablation experiments results for the DMN trained on UNC}
+    \label{tab:my_label}
+\end{table}
 
 \section{Qualitative Results}
+\subsection*{UNC}
+\subsection*{UNC+}
+\subsection*{GRef}
+\subsection*{ReferIt}
 
 \section{Additional Experiments}
