@@ -119,6 +119,7 @@
 \setlength{\headheight}{15pt}
 \pagestyle{plain}
 \RequirePackage{titling}
+\RequirePackage{placeins}
 
 % Front matter.
 \setcounter{tocdepth}{1}

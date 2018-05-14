@@ -206,19 +206,21 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
 
 \section{Qualitative Results}
 \subsection*{UNC}
+\FloatBarrier
 \subsection*{UNC+}
 \begin{figure}[!htbp]
-	\centering
+    \centering
     \begin{subfigure}[b]{\columnwidth}
             \centering
-            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/1.png}
-    \subcaption{Man in orange shirt}
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/5.png}
+    \subcaption{Player on shirt 16}
     % \label{subfig:original_img}
     \end{subfigure}
+    
     \begin{subfigure}[b]{\columnwidth}
             \centering
-            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/2.png}
-    \subcaption{Man in doorway}
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/6.png}
+    \subcaption{Person sitting}
     % \label{subfig:original_img}
     \end{subfigure}
     
@@ -235,20 +237,25 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     \subcaption{Blue jacket partial}
     % \label{subfig:original_img}
     \end{subfigure}
-    
+    \caption{DMN positive samples on UNC+}
+    \label{fig:my_label}
+\end{figure}
+\begin{figure}[!htbp]
+    \ContinuedFloat
+	\centering
     \begin{subfigure}[b]{\columnwidth}
             \centering
-            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/5.png}
-    \subcaption{Player with shirt 16}
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/1.png}
+    \subcaption{Man in orange shirt}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/2.png}
+    \subcaption{Man in doorway}
     % \label{subfig:original_img}
     \end{subfigure}
     
-    \begin{subfigure}[b]{\columnwidth}
-            \centering
-            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/6.png}
-    \subcaption{Person sitting}
-    % \label{subfig:original_img}
-    \end{subfigure}
     % \begin{subfigure}[b]{0.27\columnwidth}
     %         \centering
     %         \includegraphics[width=\textwidth]{./figures/Mask_1.png}
@@ -266,10 +273,45 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
     %\quad
     %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
-    \caption{}
-    \label{Fig:Intro_Descr}
+    \caption{DMN positive samples on UNC+}
+    \label{Fig:UNC+_Pos}
 \end{figure}
 
+\begin{figure}[!htbp]
+    \centering
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/1_Neg.png}
+    \subcaption{Black blur at the end of the remote}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/2_neg.png}
+    \subcaption{The hand holding the white object}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/3_neg.png}
+    \subcaption{Decorated snowboard upright}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/4_neg.png}
+    \subcaption{Closest bowl}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    \caption{DMN negative samples on UNC+}
+    \label{Fig:UNC+_Neg}
+\end{figure}
+
+
+\FloatBarrier
 \subsection*{GRef}
 \subsection*{ReferIt}
 
