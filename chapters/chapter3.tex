@@ -183,13 +183,13 @@ Finally, a performance increase on GRef is directly related to an improvement of
 
 \section{Ablation Experiments}
 \label{section:ablation}
-To evaluate the model from a more systematic and scientific perspective, several parts of the model will be removed in order to determine their importance towards the final performance value. On the present experiments, the main module contributions are removed, then the model is trained under the same setup used to train the DMN to generate results on section \ref{section:comp}. On this opportunity, the experiments are trained exclusively on UNC, as it represents the reference dataset for all the experiments performed throughout this document.
+To evaluate the model from a more systematic and scientific perspective, several parts of the model will be removed in order to determine their importance towards the final performance value. On the present experiments, the main module contributions are removed, then the model is trained under the same setup used to train the DMN to generate results on section \ref{section:comp}. On this opportunity, the experiments are trained exclusively on GRef, due to its difficulty. %for all the experiments performed throughout this document.
 
 \begin{table}[!htbp]
     \centering
     \begin{tabular}{ c | p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} | c }
 \hline
-Method 								& Pr$@0.5$		& Pr$@0.6$		& Pr$@0.7$		& Pr$@0.8$		& Pr$@0.9$		& mIoU			\\
+Method 								& Pr$@0.5$		& Pr$@0.6$		& Pr$@0.7$		& Pr$@0.8$		& Pr$@0.9$		& mIoU (\%)			\\
 \hline
 Only VM 							& 6.41 			& 2.85 			& 1.17 			& 0.36 			& 0 			& 18.03 		\\
 $[h_{t}]$ in LM and SM	& 11.21 		& 6.15 			& 3.19			& 1.48 			& 0.39			& 22.15 		\\
@@ -201,11 +201,83 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
 \hline
 \end{tabular}
     \caption{Ablation experiments results for the DMN trained on UNC}
-    \label{tab:my_label}
+    \label{Tab:Ablation}
 \end{table}
+
+As it is possible to observe on Table \ref{Tab:Ablation}, the DMN is dependant on its Language, Synthesis and Upsampling modules, as their combined performance corresponds to 41\% of the overall performance value, this can be compared with respect to using only the Visual Module, which accounts to the same proportion of the optimal value. However, the inclusion of mirror links on the Upsampling Module does accounts for the 40\% of the final performance value, which highlights also the importance of this architecture design. Nonetheless, as the ablation experiments were trained on GRef with random weights, it is possible that the margin difference is lower when trained on UNC or UNC+.
+
+With respect to the additional contributions of the proposed model, such as including dynamical filters responses and language features on all multimodal representations, it is possible to conclude that they benefit the model at least by a 26\% in terms of performance, which highlight the inherent importance of these architecture components. 
 
 \section{Qualitative Results}
 \subsection*{UNC}
+\begin{figure}[!htbp]
+    \centering
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/1.png}
+    \subcaption{Man on left}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/2.png}
+    \subcaption{Woman on the right}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/3.png}
+    \subcaption{Man second from the left with white shirt}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/4.png}
+    \subcaption{Girl sitting on left with gray hoodie}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    \caption{Some DMN positive samples on UNC. \textbf{Left-Right:} Original Image, Reference Mask GT and DMN output mask}
+    \label{fig:my_label}
+\end{figure}
+\begin{figure}[!htbp]
+    \ContinuedFloat
+	\centering
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/5.png}
+    \subcaption{Woman with apron}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/unc_samples/6.png}
+    \subcaption{Purple shirt on left}
+    % \label{subfig:original_img}
+    \end{subfigure}
+    
+    % \begin{subfigure}[b]{0.27\columnwidth}
+    %         \centering
+    %         \includegraphics[width=\textwidth]{./figures/Mask_1.png}
+    % \subcaption{\textit{Woman on the left}}
+    % \label{subfig:woman_left}
+    % \end{subfigure}
+    %  \begin{subfigure}[b]{0.27\columnwidth}
+    %         \centering
+    %         \includegraphics[width=\textwidth]{./figures/Mask_2.png}
+    % \subcaption{\textit{Man on blue}}
+    % \label{subfig:man_blue}
+    % \end{subfigure}
+    %\subfloat[Original image.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-1.png} }}%
+    %\quad
+    %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
+    %\quad
+    %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
+    \caption{Some DMN positive samples on UNC. \textbf{Left-Right:} Original Image, Reference Mask GT and DMN output mask}
+    \label{Fig:UNC_Pos}
+\end{figure}
 \FloatBarrier
 \subsection*{UNC+}
 \begin{figure}[!htbp]
@@ -237,7 +309,7 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     \subcaption{Blue jacket partial}
     % \label{subfig:original_img}
     \end{subfigure}
-    \caption{DMN positive samples on UNC+}
+    \caption{Some DMN positive samples on UNC+. \textbf{Left-Right:} Original Image, Reference Mask GT and DMN output mask}
     \label{fig:my_label}
 \end{figure}
 \begin{figure}[!htbp]
@@ -273,7 +345,7 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     %\subfloat[Heatmap based on query \textit{guy}.]{{\includegraphics[width=0.25\columnwidth]{./figures/first-fig-3.png} }}%
     %\quad
     %\subfloat[Heatmap based on query \textit{girl}.]{{\includegraphics[width=0.25\columnwidth]{./figures/girl.png} }}%
-    \caption{DMN positive samples on UNC+}
+    \caption{Some DMN positive samples on UNC+. \textbf{Left-Right:} Original Image, Reference Mask GT and DMN output mask}
     \label{Fig:UNC+_Pos}
 \end{figure}
 
@@ -281,7 +353,7 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     \centering
     \begin{subfigure}[b]{\columnwidth}
             \centering
-            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/1_Neg.png}
+            \includegraphics[width=\textwidth]{./figures/unc_plus_samples/1_neg.png}
     \subcaption{Black blur at the end of the remote}
     % \label{subfig:original_img}
     \end{subfigure}
@@ -306,7 +378,7 @@ DMN							& 26.54 		& 18.25 		& 10.71 		& 4.09 			& 0.51 			& 30.90	 		\\
     \subcaption{Closest bowl}
     % \label{subfig:original_img}
     \end{subfigure}
-    \caption{DMN negative samples on UNC+}
+    \caption{Some DMN negative samples on UNC+. \textbf{Left-Right:} Original Image, Reference Mask GT and DMN output mask}
     \label{Fig:UNC+_Neg}
 \end{figure}
 
