@@ -15,3 +15,56 @@ The main motivation behind this development consists in providing the building b
 
 On Figure~\ref{Fig:App_Overview}, a summary of the general overview of the application is presented, describing the interaction between different device hardware/software elements, such as the camera/gallery to adquire an image and the microphone/keyboard to get a query phrase that is going to be processed by the DMN. As a result, the user can visualize and threshold the final segmentation using different values, the visualization can be customized by choosing different mask colors or by displaying the final result as a heatmap on different colormaps. Finally, the user can export a result to an image or share it with another application installed.
 
+\section{Backend Architecture}
+To process and handle multiple segmentation requests concurrently, a high scalable, fault-tolerant and high «performant» architecture is proposed. This architecture, as seen on Figure~\ref{Fig:Backend_Overview} comprises different servers and external services; for instance, the reference implementation\footnote{\url{https://github.com/andfoy/query-objseg-server}} comprises two servers, one to attend the final devices' requests (Frontend) and another one (Backend) to process the actual requests by running the DMN model hosted on a GPU. 
+
+With respect to the external services used to communicate all three nodes, the architecture employs AWS S3 to store all the image requests, as well the raw segmentation masks responses. Also, it uses Firebase to handle incoming requests registration and storage, and also to notify end devices by using the Firebase Cloud Messaging (FCM) system, which enables the service to communicate asynchronously with a mobile device that starts a request and notify the completion of its petition.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{./figures/dmn_app/Backend_Overview.pdf}
+    \caption{DMNApp backend architecture overview depicting the frontend server nodes, the messaging server nodes and the backend server nodes, alongside all the cloud services used additionally}
+    \label{Fig:Backend_Overview}
+\end{figure}
+
+The frontend server consists of a complete Erlang stack that handles the following data flows: Device registration and identification, initial image segmentation request registration and result streaming to Firebase. By using Erlang\footnote{\url{https://www.erlang.org/}}, it is possible to guarantee design requirements related to performance, failure tolerance and availability\footnote{Erlang is known for its 9 nines availability figures}. For instance, the Erlang server can be replicated across a set of distributed nodes, such that it can handle multiple requests concurrently. As the requests have no state, all nodes can operate asynchronously without any interdependence between them. Also, this property assures that the server does not have to persist any information into disk, which represents one of the hallmark bottlenecks on most web servers, this in turn, enables us to use a in-memory database (Mnesia) to keep track of connected devices and requests that are pending of response by the backend server. 
+
+To communicate both servers, the architecture proposed makes use of a broker server that runs RabbitMQ\footnote{\url{https://www.rabbitmq.com/}}, a messaging queue service also implemented on Erlang, thus satisfying also high performance, high availavility and multiple node replication. The messaging system is one of the core modules of the distribution system, as it allows to decouple a federation frontend servers from a cluster of backend processing servers. Also, the messaging system allows to replicate and parallelize the final processing servers, as they connect to a single request message queue, \textit{i.e.,} Any connected server is able to receive segmentation requests. Finally, this component enables the architecture to guarantee asynchronous behaviour, by queuing incoming requests; if a server is not available, then the request remains stored until it can be resolved. This implies that the unavailability of the backend server does not cause a failure of a request.
+
+Finally, the backend server is the core processing node of the proposed architecture, this server, based on Python (Tornado Web Server\footnote{\url{http://www.tornadoweb.org/en/stable/}}) does run on the final GPU machines. Each server is asynchronous as well, which means that it can handle multiple requests concurrently. The server does take an incoming request from the message broker and processes its corresponding (image, query) pair using the DMN reference implementation written on PyTorch.
+
+After processing a request and obtaining its corresponding segmentation map, the backend server does proceed to upload the input image and its result to S3, then it notifies to the frontend server of the request completion (Via RabbitMQ), which in turn does store the request on Firestore and sends a notification via FCM to the device that did initiate the request. Due to the asynchronous nature of the processing pipeline, a device only gets information about any request after it receives the completion notification, and therefore is not blocked after issuing a request.
+
+It is necessary to note that the proposed architecture and servers are generic and transverse to any Deep Learning application that requires processing in a external server only by changing the model that the backend server uses to process information from different inputs given. Also, this backend can be used by different endpoint applications, such as mobile apps and web clients, as long as they can perform HTTP requests to the frontend server(s) and receive asynchronous notifications via FCM. 
+
+\section{Android Application Implementation}
+The reference Android application implementation\footnote{\url{https://github.com/andfoy/query-objseg-android}} is written on Kotlin\footnote{\url{https://kotlinlang.org/}} and it comprises several functions and activities that enable an user to do any of the following case uses:
+\begin{enumerate}
+    \item Request a segmentation based on an image and a query phrase \label{case:req}
+    \begin{enumerate}
+        \item Get image from Gallery/Camera
+        \item Get user input using the Keyboard/Microphone
+        \item Get user geographical location (Optional)
+    \end{enumerate}
+    \item Delete a segmentation
+    \item Visualize a segmentation result
+    \begin{enumerate}
+        \item Visualize mask on heatmap mode
+        \begin{enumerate}
+            \item Select different colormaps
+        \end{enumerate}    
+        \item Visualize mask as a contour overlay over the original image
+        \begin{enumerate}
+            \item Change overlay contour color
+            \item Threshold mask with certain confidence value
+        \end{enumerate}
+        \item Export visualization result
+        \begin{enumerate}
+            \item Save as image
+            \item Send result image to other app
+        \end{enumerate}
+    \end{enumerate}
+    \item Visualize segmentation localization on a map 
+\end{enumerate}
+
+For each use case, the app defines a different view designed taking into account Material Design's\footnote{\url{https://material.io/design/}} guidelines, therefore respecting the suggested Android look-and-feel. For instance, on the subfigure~\ref{subfig: }
