@@ -120,7 +120,8 @@
 \pagestyle{plain}
 \RequirePackage{titling}
 \RequirePackage{placeins}
-
+\RequirePackage{multicol}
+\usepackage[perpage]{footmisc}
 % Front matter.
 \setcounter{tocdepth}{1}
 \usepackage[titles]{tocloft}

@@ -40,23 +40,29 @@ It is necessary to note that the proposed architecture and servers are generic a
 \section{Android Application Implementation}
 The reference Android application implementation\footnote{\url{https://github.com/andfoy/query-objseg-android}} is written on Kotlin\footnote{\url{https://kotlinlang.org/}} and it comprises several functions and activities that enable an user to do any of the following case uses:
 \begin{enumerate}
-    \item Request a segmentation based on an image and a query phrase \label{case:req}
+    \item Request a segmentation based on an image and a query phrase \label{case:create}
     \begin{enumerate}
-        \item Get image from Gallery/Camera
+        \item Get image from Gallery/Camera \label{subcase:cam}
         \item Get user input using the Keyboard/Microphone
+        \label{subcase:query_input}
         \item Get user geographical location (Optional)
+        \label{subcase:gps}
     \end{enumerate}
     \item Delete a segmentation
     \item Visualize a segmentation result
     \begin{enumerate}
+        \item Threshold mask with certain confidence value
+        \label{subcase:thresh}
         \item Visualize mask on heatmap mode
+        \label{subcase:vis_heatmap}
         \begin{enumerate}
             \item Select different colormaps
+            \label{subsubcase:colormap}
         \end{enumerate}    
         \item Visualize mask as a contour overlay over the original image
+        
         \begin{enumerate}
             \item Change overlay contour color
-            \item Threshold mask with certain confidence value
         \end{enumerate}
         \item Export visualization result
         \begin{enumerate}
@@ -67,4 +73,109 @@ The reference Android application implementation\footnote{\url{https://github.co
     \item Visualize segmentation localization on a map 
 \end{enumerate}
 
-For each use case, the app defines a different view designed taking into account Material Design's\footnote{\url{https://material.io/design/}} guidelines, therefore respecting the suggested Android look-and-feel. For instance, on the subfigure~\ref{subfig: }
+For each use case, the app defines a different view designed taking into account Material Design's\footnote{\url{https://material.io/design/}} guidelines, therefore respecting the suggested Android look-and-feel. For instance, on Figure~\ref{subfig:app_main}, it is possible to observe an empty \texttt{RecyclerView} with a \texttt{FloatingActionButton} that allows users to create a new segmentation request based on images taken from the camera or the system gallery (Use case \ref{subcase:cam}), as shown on Figure~\ref{subfig:app_img_src}. 
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/1.png}
+    \subcaption{Main app activity view}
+    \label{subfig:app_main}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/2.png}
+    \subcaption{Use case \ref{subcase:cam}: DMNApp image source options selection menu}
+    \label{subfig:app_img_src}
+    \end{subfigure}
+    \end{multicols}
+    
+    \caption{Main DMN Activity GUI depicting a Floating Action Button \ref{subfig:app_main} and its options \ref{subfig:app_img_src}}
+    \label{Fig:App_Main}
+\end{figure}
+
+After picking one of the options, the user will be redirected to the external application that provides the option required, if an image is selected, then the user is taken to the image preview Activity (Figure~\ref{subfig:image_pre}), where it is not only possible to review the image to be sent, but it also allows to input an input query phrase, using a text input box that allows both traditional text input via a keyboard, and speech to text input\footnote{Using Google voice services} (Use case \ref{subcase:query_input}), as shown on Figure~\ref{subfig:mic_input}. Additionally, the user can add a localization reference to the request (Figure~\ref{subfig:loc}) based on a custom position or based on the current device position, obtained via GPS/IP.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{3}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/3.png}
+    \subcaption{Image preview activity}
+    \label{subfig:image_pre}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/4.png}
+    \subcaption{Use case \ref{subcase:query_input}: Query input via speech recognition using the microphone}
+    \label{subfig:mic_input}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/5.png}
+    \subcaption{Use case \ref{subcase:gps}: Get user localization based on current position/custom place name}
+    \label{subfig:loc}
+    \end{subfigure}
+    \end{multicols}
+    
+    \caption{\ref{subfig:image_pre}: DMN image preview activity, \ref{subfig:mic_input}: Speech-to-text recognition services, \ref{subfig:loc}: Localization Activity}
+    \label{Fig:Img_Pre}
+\end{figure}
+
+If the user decides to submit the request to the server, the application takes the selected image, compress it and encodes it as a binary Base64 string, which is then sent to the frontend server alongside the device UUID in the application and the query phrase via asynchronous HTTP using Volley\footnote{Android's native HTTP client implementation}.
+
+After the image is processed by the backend server and the FCM notification arrives back to the device, the application proceeds to checkout the latest change on the Firebase store, as it should contain a new entry depicting the request sent, adds it to the local database to prevent downloading its results on the application next start. Then the application connects to S3 and retrieves the request input image and its results, which consists of a heatmap preview image and the actual raw pixel-wise segmentation probability mask. After completing the downloads, the application displays a \texttt{CardView} depicting the input image (Figure~\ref{subfig:entry_view}), alongside its query, timestamp and localization (if exists). Additionally, the preview card allows to show the mask heatmap thumbnail image, as depicted on Figure~\ref{subfig:mask_preview}.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/6.png}
+    \subcaption{DMNApp main activity displaying a request response}
+    \label{subfig:entry_view}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/7.png}
+    \subcaption{Request result mask heatmap preview on main activity}
+    \label{subfig:mask_preview}
+    \end{subfigure}
+    \end{multicols}
+    
+    \caption{DMNApp main activity refresh after receiving a successful response for a request}
+    \label{Fig:Main_Elem}
+\end{figure}
+
+If the user performs a click over a request response card, it will take her/him to the visualization activity (Figure~\ref{subfig:vis_mode}), where it is possible to observe a heatmap of the segmentation probability mask. To generate this view, the application must load the raw segmentation mask retrieved from S3 and interpret it byte-by-byte to load each pixel value\footnote{represented as float values of 64-bits} and transform it into an OpenCV \texttt{Mat} object, this object is cached for further processing. 
+
+As OpenCV provides functions to map raw probabilities to colormap palettes, the application uses them to produce the images displayed on the heatmap visualization mode (Use case \ref{subcase:vis_heatmap}). Also, it is possible to display the mask using different colormaps (Use case \ref{subsubcase:colormap}), which can be changed by swiping left/right on the image, as it can be observed on Figure~\ref{subfig:colormap}.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/8.png}
+    \subcaption{DMNApp mask visualization: Heatmap mode}
+    \label{subfig:vis_mode}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/9.png}
+    \subcaption{Display segmentation mask using different colormaps under heatmap mode}
+    \label{subfig:colormap}
+    \end{subfigure}
+    \end{multicols}
+    
+    \caption{DMNApp heatmap mode visualization}
+    \label{Fig:Vis_Heat}
+\end{figure}
