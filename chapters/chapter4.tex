@@ -179,3 +179,84 @@ As OpenCV provides functions to map raw probabilities to colormap palettes, the 
     \caption{DMNApp heatmap mode visualization}
     \label{Fig:Vis_Heat}
 \end{figure}
+
+On the visualization interface, the user can also compute and visualize a thresholded mask (Figure~\ref{subfig:thresh_heat}), using the value slides available at the bottom of the interface (Use case~\ref{subcase:thresh}). The thresholded values very from 0 to 1, by changing the values, the OpenCV mask is thresholded and displayed. However, it is possible also to visualize a thresholded result as overlay contour on the original image. As it is possible to observe on Figure~\ref{subfig:contour_mode}, the contour aligns with the corresponding pixels of the thresholded mask. Additionally, the user can customize the colour of the segmentation result (Figures~\ref{subfig:color_chose}, \ref{subfig:color_result}). Another feature present on the \texttt{FloatingActionButton}, is that of exporting the current view results to an image, or to share it with another application, as currently seen on Figure~\ref{subfigure:export}. Some output results produced by the application can be seen on section \ref{sec:app_res}.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/10.png}
+    \subcaption{DMNApp mask thresholding: Heatmap mode}
+    \label{subfig:thresh_heat}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/11.png}
+    \subcaption{DMNApp mask thresholding: Contour mode}
+    \label{subfig:contour_mode}
+    \end{subfigure}
+    \end{multicols}
+    \caption{DMNApp contour mode visualization}
+    \label{Fig:Vis_Heat}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{3}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/12.png}
+    \subcaption{Color picker dialog in contour mode}
+    \label{subfig:color_chose}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/13.png}
+    \subcaption{Contour visualization after color modification}
+    \label{subfig:color_result}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/14.png}
+    \subcaption{Result export options under visualization mode}
+    \label{subfig:export}
+    \end{subfigure}
+    \end{multicols}
+    \caption{DMNApp contour color modification and result export capabilities}
+    \label{Fig:Vis_Color}
+\end{figure}
+
+Finally, an user can manage any of its segmentation results, by selecting and deleting them, as illustrated on Figures~\ref{subfig:additional_menu} and \ref{subfig:selection_overlay}, by selecting this option, the user not only does remove all local files associated to that segmentation result in particular, but it also deletes its references on all the cloud storage services. As a final remark, it is necessary to add that the application does have a lite version if the device is not connected to Internet, in this version (Figure~\ref{subfig:limited}), an user has only access to the visualization capabilities of the application if there are previous downloaded results, as a result, all request capabilities are disabled until the device connects once again.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{3}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/15.png}
+    \subcaption{Additional option menu for downloaded segmentation instances}
+    \label{subfig:additional_menu}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/16.png}
+    \subcaption{Multiple segmentation card selection for deletion}
+    \label{subfig:selection_overlay}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/views/17.png}
+    \subcaption{DMNApp running on lite mode when there is not Internet connection available}
+    \label{subfig:limited}
+    \end{subfigure}
+    \end{multicols}
+    \caption{DMNApp additional functions and lite mode illustration}
+    \label{Fig:Additional}
+\end{figure}
