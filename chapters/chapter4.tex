@@ -233,6 +233,10 @@ On the visualization interface, the user can also compute and visualize a thresh
 
 Finally, an user can manage any of its segmentation results, by selecting and deleting them, as illustrated on Figures~\ref{subfig:additional_menu} and \ref{subfig:selection_overlay}, by selecting this option, the user not only does remove all local files associated to that segmentation result in particular, but it also deletes its references on all the cloud storage services. As a final remark, it is necessary to add that the application does have a lite version if the device is not connected to Internet, in this version (Figure~\ref{subfig:limited}), an user has only access to the visualization capabilities of the application if there are previous downloaded results, as a result, all request capabilities are disabled until the device connects once again.
 
+All the aforementioned application case uses were implemented taking into account different performance and optimization guidelines and tricks designed to prevent CPU and Memory overloading, while reducing the total battery consumption. Techniques such as using threads to execute long running tasks, using Recycler Views instead of Regular List Views to display segmentation card results and image compression, do ensure that the app does run without hanging or freezing. 
+
+On the current app release, there are some important operations that require further optimization, such as the mask representation, which should be reduced and adapted for visualization purposes, such format should be small in size, and also very efficient in terms of loading times. This should improve the current downloading times and all the mask-related operations (Loading, thresholding and heatmap/contour visualization) latency, thus improving the general UX and speed of the app. However, these details should be implemented on later releases of the app.
+
 \begin{figure}[!htbp]
     \centering
     \begin{multicols}{3}
@@ -260,3 +264,65 @@ Finally, an user can manage any of its segmentation results, by selecting and de
     \caption{DMNApp additional functions and lite mode illustration}
     \label{Fig:Additional}
 \end{figure}
+
+\FloatBarrier
+\section{DMN examples on-the-wild}
+On this section, some examples obtained using the DMNApp are presented. As it is possible to appreciate, the results are satisfactory and are not that different from those presented on section~\ref{section:db_examples}, therefore proving the performance of the DMN model on images and queries that were never seen before on the training dataset. Also, it is possible to observe the application capabilities to produce better looking result visualizations than those presented before.
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/3.jpg}
+    \subcaption{Red bag on the right}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/6.png}
+    \subcaption{Standing person in blue}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/7.png}
+    \subcaption{Woman in a blue dress}
+    \end{subfigure}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/2.jpg}
+    \subcaption{Person on green coat}
+    \end{subfigure}
+    \end{multicols}
+    \caption{Some DMNApp example outputs from real-world images: \textbf{Left:} Original Image - \textbf{Right:} DMNApp contour display output}
+    \label{Fig:App_Examples}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+    \ContinuedFloat
+    \centering
+    % \begin{multicols}{2}
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/1.jpg}
+    \subcaption{Man with yellow coat}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/5.png}
+    \subcaption{Woman in the middle}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{\columnwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./figures/dmn_app/samples/8.png}
+    \subcaption{Man with stripes shirt}
+    \end{subfigure}
+    % \end{multicols}
+    \caption{Some DMNApp example outputs from real-world images: \textbf{Left:} Original Image - \textbf{Right:} DMNApp contour display output}
+    \label{Fig:App_Examples}
+\end{figure}
+
